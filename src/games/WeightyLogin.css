@@ -1,0 +1,94 @@
+.wl-scene {
+  width: 100%;
+  background: #e5e5ea;
+  border-radius: 12px;
+  padding: 40px 24px 32px;
+  display: flex;
+  justify-content: center;
+}
+
+.wl-form {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* The slot reserves vertical space so the rotating field doesn't collapse layout */
+.wl-field-slot {
+  position: relative;
+  height: 54px;
+}
+
+.wl-field-slot--password {
+  /* password field stays put */
+  display: flex;
+  align-items: center;
+}
+
+.wl-field-slot--password .wl-input {
+  position: relative;
+}
+
+.wl-field-wrap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  will-change: transform;
+  transition: transform 0.35s cubic-bezier(0.34, 1.1, 0.64, 1);
+}
+
+.wl-input {
+  width: 100%;
+  height: 54px;
+  background: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 0 16px;
+  font-size: 1rem;
+  color: #111;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+  outline: none;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.wl-input::placeholder {
+  color: #aaa;
+}
+
+.wl-input:focus {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18), 0 0 0 2px rgba(255, 59, 100, 0.3);
+}
+
+.wl-btn {
+  height: 54px;
+  background: #ff2d55;
+  color: #fff;
+  border: none;
+  border-radius: 27px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.15s;
+  font-family: inherit;
+}
+
+.wl-btn:hover {
+  background: #e0203f;
+}
+
+.wl-btn:active {
+  background: #c01a35;
+}
+
+.wl-msg {
+  font-size: 0.8rem;
+  color: #c0392b;
+  text-align: center;
+  margin: 0;
+}

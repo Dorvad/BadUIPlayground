@@ -3,6 +3,7 @@ import GearShiftKeyboard from './games/GearShiftKeyboard'
 import GenderSliders from './games/GenderSliders'
 import FanUnsubscribe from './games/FanUnsubscribe'
 import MusicCaptcha from './games/MusicCaptcha'
+import WeightyLogin from './games/WeightyLogin'
 
 const games = [
   {
@@ -28,6 +29,12 @@ const games = [
     title: 'Prove You\'re Human',
     description: 'A quick security check before you continue.',
     component: <MusicCaptcha />,
+  },
+  {
+    id: 'weighty',
+    title: 'Heavy Login',
+    description: 'The longer your username, the heavier the field gets.',
+    component: <WeightyLogin />,
   },
 ]
 
