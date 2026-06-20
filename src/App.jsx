@@ -6,6 +6,7 @@ import MusicCaptcha from './games/MusicCaptcha'
 import WeightyLogin from './games/WeightyLogin'
 import GlobePicker from './games/GlobePicker'
 import PerspectiveLoader from './games/PerspectiveLoader'
+import PianoPassword from './games/PianoPassword'
 
 const games = [
   {
@@ -49,6 +50,12 @@ const games = [
     title: 'Loading Bar',
     description: 'Almost done!',
     component: <PerspectiveLoader />,
+  },
+  {
+    id: 'piano',
+    title: 'Piano Password',
+    description: 'Please set a secure password using the keyboard below.',
+    component: <PianoPassword />,
   },
 ]
 
