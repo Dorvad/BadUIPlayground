@@ -6,15 +6,19 @@ export default function WeightyLogin() {
   const [password, setPassword] = useState('')
   const [loginMsg, setLoginMsg] = useState('')
 
-  const chars = username.length
-  // Rotation accelerates non-linearly as the field gets "heavier"
-  const rotation = Math.min(chars * chars * 0.18, 95)
-  const sinkY = Math.min(chars * 4, 140)
+  const uChars = username.length
+  const pChars = password.length
+  const uRotation = Math.min(uChars * uChars * 0.18, 95)
+  const pRotation = Math.min(pChars * pChars * 0.18, 95)
 
   function handleLogin(e) {
     e.preventDefault()
-    if (rotation > 60) {
+    if (uRotation > 60 && pRotation > 60) {
+      setLoginMsg("Both fields fell off the form.")
+    } else if (uRotation > 60) {
       setLoginMsg("Can't log in — your username fell off the form.")
+    } else if (pRotation > 60) {
+      setLoginMsg("Can't log in — your password fell off the form.")
     } else if (username && password) {
       setLoginMsg('Logged in!')
     } else {
@@ -25,11 +29,12 @@ export default function WeightyLogin() {
   return (
     <div className="wl-scene">
       <form className="wl-form" onSubmit={handleLogin} noValidate>
+        {/* Username — pivots from left, falls clockwise */}
         <div className="wl-field-slot">
           <div
             className="wl-field-wrap"
             style={{
-              transform: `rotate(${rotation}deg) translateY(${sinkY * 0.3}px)`,
+              transform: `rotate(${uRotation}deg)`,
               transformOrigin: '16px center',
             }}
           >
@@ -45,14 +50,23 @@ export default function WeightyLogin() {
           </div>
         </div>
 
-        <div className="wl-field-slot wl-field-slot--password">
-          <input
-            className="wl-input"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={e => { setPassword(e.target.value); setLoginMsg('') }}
-          />
+        {/* Password — pivots from right, falls counter-clockwise */}
+        <div className="wl-field-slot">
+          <div
+            className="wl-field-wrap"
+            style={{
+              transform: `rotate(${-pRotation}deg)`,
+              transformOrigin: 'calc(100% - 16px) center',
+            }}
+          >
+            <input
+              className="wl-input"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={e => { setPassword(e.target.value); setLoginMsg('') }}
+            />
+          </div>
         </div>
 
         {loginMsg && <p className="wl-msg">{loginMsg}</p>}

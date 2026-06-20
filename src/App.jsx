@@ -7,6 +7,7 @@ import WeightyLogin from './games/WeightyLogin'
 import GlobePicker from './games/GlobePicker'
 import PerspectiveLoader from './games/PerspectiveLoader'
 import PianoPassword from './games/PianoPassword'
+import VolumeSelector from './games/VolumeSelector'
 
 const games = [
   {
@@ -56,6 +57,12 @@ const games = [
     title: 'Piano Password',
     description: 'Please set a secure password using the keyboard below.',
     component: <PianoPassword />,
+  },
+  {
+    id: 'volume',
+    title: 'Volume Control',
+    description: 'Set your preferred volume level.',
+    component: <VolumeSelector />,
   },
 ]
 

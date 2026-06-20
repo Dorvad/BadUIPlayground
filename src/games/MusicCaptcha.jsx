@@ -8,33 +8,72 @@ const QUESTIONS = [
   'Select all scores where the interplay between the leading tone and subdominant implies emotional ambiguity without explicitly violating voice-leading conventions.',
 ]
 
-// Generate fake sheet music SVGs
+const LINE_GAP = 7   // px between staff lines
+const STAFF_TOP = 8  // y of topmost staff line
+
+// Staff position 0 = top line, 8 = bottom line; every integer = one step (line or space)
+function posY(p) { return STAFF_TOP + p * (LINE_GAP / 2) }
+
 function SheetMusicThumbnail({ seed }) {
-  const lines = [0, 8, 16, 24, 32]
-  const notes = Array.from({ length: 12 }, (_, i) => ({
-    x: 12 + i * 10,
-    y: 4 + ((seed * 7 + i * 13) % 36),
-    beam: i % 3 === 0,
-  }))
+  const W = 130, H = 58
+
+  // 8 notes per thumbnail, positions 0–8 on the staff
+  const noteCount = 7 + (seed % 3)
+  const notes = Array.from({ length: noteCount }, (_, i) => {
+    const pos = (Math.abs(seed * 31 + i * 17 + i * i * 5)) % 9
+    const x = 30 + i * ((W - 36) / (noteCount - 1))
+    const y = posY(pos)
+    const stemUp = pos >= 4           // low notes → stem up
+    const sx = stemUp ? x + 3.5 : x - 3.5
+    const sy = stemUp ? y - 20 : y + 20
+    const beamed = i % 2 === 0 && i + 1 < noteCount  // pair up even notes
+    return { x, y, sx, sy, stemUp, beamed, pos }
+  })
+
+  // Pick one of 3 time signatures deterministically
+  const timeSig = ['4','3','6'][(seed % 3)]
 
   return (
-    <svg viewBox="0 0 130 52" xmlns="http://www.w3.org/2000/svg" className="score-svg">
+    <svg viewBox={`0 0 ${W} ${H}`} xmlns="http://www.w3.org/2000/svg" className="score-svg">
       {/* Staff lines */}
-      {lines.map(y => (
-        <line key={y} x1="2" y1={y + 8} x2="128" y2={y + 8} stroke="#111" strokeWidth="0.7" />
+      {[0,1,2,3,4].map(i => (
+        <line key={i} x1="1" y1={STAFF_TOP + i * LINE_GAP} x2={W-1} y2={STAFF_TOP + i * LINE_GAP}
+          stroke="#111" strokeWidth="0.8" />
       ))}
-      {/* Time sig */}
-      <text x="4" y="22" fontSize="14" fill="#111" fontFamily="serif">4</text>
-      <text x="4" y="34" fontSize="14" fill="#111" fontFamily="serif">4</text>
-      {/* Notes */}
+
+      {/* Treble clef */}
+      <text x="1" y={STAFF_TOP + 26} fontSize="34" fontFamily="serif" fill="#111"
+        dominantBaseline="middle" style={{ userSelect:'none' }}>𝄞</text>
+
+      {/* Time signature */}
+      <text x="20" y={STAFF_TOP + 8}  fontSize="9" fontFamily="serif" fill="#111" textAnchor="middle">{timeSig}</text>
+      <text x="20" y={STAFF_TOP + 22} fontSize="9" fontFamily="serif" fill="#111" textAnchor="middle">4</text>
+
+      {/* Barline at midpoint */}
+      <line x1={W/2} y1={STAFF_TOP} x2={W/2} y2={STAFF_TOP + LINE_GAP * 4}
+        stroke="#111" strokeWidth="1" />
+
+      {/* Stems */}
       {notes.map((n, i) => (
-        <g key={i}>
-          <ellipse cx={n.x + 18} cy={n.y + 10} rx="3.5" ry="2.5" fill="#111" transform={`rotate(-15 ${n.x + 18} ${n.y + 10})`} />
-          <line x1={n.x + 21} y1={n.y + 10} x2={n.x + 21} y2={n.y - 10} stroke="#111" strokeWidth="0.8" />
-          {n.beam && i + 1 < notes.length && (
-            <line x1={n.x + 21} y1={n.y - 10} x2={notes[i + 1]?.x + 39} y2={notes[i + 1]?.y - 10} stroke="#111" strokeWidth="1.5" />
-          )}
-        </g>
+        <line key={`s${i}`} x1={n.sx} y1={n.y} x2={n.sx} y2={n.sy}
+          stroke="#111" strokeWidth="1" />
+      ))}
+
+      {/* Beams between paired notes with same stem direction */}
+      {notes.map((n, i) => {
+        if (!n.beamed) return null
+        const next = notes[i + 1]
+        if (n.stemUp !== next.stemUp) return null
+        return (
+          <line key={`b${i}`} x1={n.sx} y1={n.sy} x2={next.sx} y2={next.sy}
+            stroke="#111" strokeWidth="3" strokeLinecap="round" />
+        )
+      })}
+
+      {/* Note heads */}
+      {notes.map((n, i) => (
+        <ellipse key={`n${i}`} cx={n.x} cy={n.y} rx="3.8" ry="2.7" fill="#111"
+          transform={`rotate(-15 ${n.x} ${n.y})`} />
       ))}
     </svg>
   )
