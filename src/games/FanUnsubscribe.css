@@ -1,0 +1,176 @@
+.fan-scene {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Wavy wind lines */
+.fan-waves {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.fan-wave {
+  position: absolute;
+  top: var(--top);
+  left: 0;
+  right: 90px;
+  height: 10px;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 8px,
+    transparent 8px
+  );
+  animation: wave-scroll 2s linear infinite;
+  animation-delay: var(--delay);
+}
+
+.fan-wave::before {
+  content: '';
+  display: block;
+  width: 200%;
+  height: 100%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='10'%3E%3Cpath d='M0 5 Q10 0 20 5 Q30 10 40 5' stroke='%2360BFFF' stroke-width='2' fill='none'/%3E%3C/svg%3E") repeat-x center;
+  animation: wave-scroll 1.8s linear infinite;
+  animation-delay: var(--delay);
+}
+
+@keyframes wave-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Floating button */
+.fan-btn {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: top 0.3s ease, left 0.1s linear;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.fan-btn:hover {
+  background: #c0392b;
+}
+
+.fan-success {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #27ae60;
+  z-index: 10;
+  animation: pop-in 0.3s ease;
+}
+
+@keyframes pop-in {
+  0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* Fan */
+.fan-body {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fan-cage {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid #555;
+  background: rgba(80,80,80,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.fan-cage-line {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: rgba(100,100,100,0.5);
+  transform-origin: center;
+}
+
+.fan-rotor {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  animation: spin 0.5s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.fan-blade {
+  position: absolute;
+  width: 22px;
+  height: 28px;
+  background: #4a7aaa;
+  border-radius: 40% 40% 10% 10%;
+  transform-origin: 50% 100%;
+  top: 50%;
+  left: 50%;
+  opacity: 0.85;
+}
+
+.fan-blade-1 {
+  transform: translateX(-50%) rotate(0deg) translateY(-100%);
+}
+
+.fan-blade-2 {
+  transform: translateX(-50%) rotate(120deg) translateY(-100%);
+}
+
+.fan-blade-3 {
+  transform: translateX(-50%) rotate(240deg) translateY(-100%);
+}
+
+.fan-hub {
+  width: 14px;
+  height: 14px;
+  background: #888;
+  border-radius: 50%;
+  position: relative;
+  z-index: 2;
+}
+
+.fan-stand {
+  width: 6px;
+  height: 50px;
+  background: #666;
+  border-radius: 3px;
+}
+
+.fan-base {
+  width: 50px;
+  height: 10px;
+  background: #555;
+  border-radius: 4px;
+}
