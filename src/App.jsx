@@ -4,6 +4,8 @@ import GenderSliders from './games/GenderSliders'
 import FanUnsubscribe from './games/FanUnsubscribe'
 import MusicCaptcha from './games/MusicCaptcha'
 import WeightyLogin from './games/WeightyLogin'
+import GlobePicker from './games/GlobePicker'
+import PerspectiveLoader from './games/PerspectiveLoader'
 
 const games = [
   {
@@ -35,6 +37,18 @@ const games = [
     title: 'Heavy Login',
     description: 'The longer your username, the heavier the field gets.',
     component: <WeightyLogin />,
+  },
+  {
+    id: 'globe',
+    title: 'Country Picker',
+    description: 'Select your country from the dropdown.',
+    component: <GlobePicker />,
+  },
+  {
+    id: 'loader',
+    title: 'Loading Bar',
+    description: 'Almost done!',
+    component: <PerspectiveLoader />,
   },
 ]
 

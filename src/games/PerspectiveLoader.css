@@ -1,0 +1,126 @@
+.pl-scene {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 24px 0 8px;
+}
+
+.pl-status {
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  font-family: monospace;
+  min-height: 1.4em;
+}
+
+/* The visible window — initially shows the zoomed-in "almost done" view */
+.pl-viewport {
+  width: 100%;
+  height: 38px;
+  overflow: hidden;
+  border-radius: 6px;
+  position: relative;
+  /* The transform is applied to the viewport so we can zoom out */
+  transform-origin: 0% 50%;
+  transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1),
+              perspective 1s ease,
+              rotate 1s ease;
+}
+
+/* Zoomed in: fill the viewport with the 1/SCALE filled portion.
+   We scaleX(SCALE) the track so the whole bar fits, but then we
+   need to see only the filled left portion... actually we shift */
+
+/* In fill phase the viewport is clipped and we shift to see the filled end */
+.pl-viewport:not(.pl-viewport--revealed) {
+  /* shift right so the rightmost (filled) end of the track aligns with our left edge */
+  /* track is SCALE wider. Fill grows from left. We want to see the filled end.
+     translateX shifts the viewport container, not the content inside.
+     Instead we use a CSS trick on .pl-track below */
+}
+
+/* The actual track — SCALE times wider than the container */
+.pl-track {
+  position: absolute;
+  /* sits at right edge of viewport in zoomed mode, so filled portion = visible */
+  right: 0;
+  width: calc(100% * 20); /* SCALE = 20 */
+  height: 100%;
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  transition: right 1s ease;
+}
+
+/* Revealed: expand viewport to 3D and show the full bar */
+.pl-viewport--revealed .pl-track {
+  right: auto;
+  left: 0;
+}
+
+.pl-viewport--revealed {
+  overflow: visible;
+  transform:
+    perspective(600px)
+    rotateX(22deg)
+    rotateY(-12deg)
+    rotateZ(3deg)
+    scale(0.18);
+  transform-origin: 0% 50%;
+}
+
+/* 3D box face illusion using outline shadows */
+.pl-viewport--revealed .pl-track {
+  /* Top face shadow */
+  box-shadow:
+    0 -14px 0 -3px #2a2a2e,       /* top face */
+    14px 0 0 -3px #1a1a1d,        /* right face */
+    14px -14px 0 -3px #333338;    /* top-right corner */
+  border-color: #555;
+}
+
+.pl-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3bffa0 0%, #2ecc71 100%);
+  border-radius: 4px 0 0 4px;
+  transition: width 0.05s linear;
+  position: relative;
+}
+
+/* Top face of fill in 3D */
+.pl-viewport--revealed .pl-fill {
+  box-shadow:
+    0 -14px 0 -3px #1a7a48,       /* top face (darker green) */
+    14px 0 0 -3px #145c36;        /* right face */
+}
+
+.pl-actions {
+  min-height: 36px;
+  display: flex;
+  justify-content: center;
+}
+
+.pl-btn {
+  background: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.pl-btn:hover {
+  background: #333;
+}
+
+.pl-btn--reset {
+  color: var(--text-muted);
+}
