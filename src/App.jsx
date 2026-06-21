@@ -1,4 +1,5 @@
 import './App.css'
+import BatLogin from './games/BatLogin'
 import GearShiftKeyboard from './games/GearShiftKeyboard'
 import GenderSliders from './games/GenderSliders'
 import FanUnsubscribe from './games/FanUnsubscribe'
@@ -63,6 +64,12 @@ const games = [
     title: 'Volume Control',
     description: 'Set your preferred volume level.',
     component: <VolumeSelector />,
+  },
+  {
+    id: 'bat',
+    title: 'Secure Login',
+    description: 'Just click the Login button to sign in.',
+    component: <BatLogin />,
   },
 ]
 

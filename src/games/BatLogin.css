@@ -1,0 +1,93 @@
+.bl-scene {
+  position: relative;
+  width: 100%;
+  min-height: 240px;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.bl-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px 16px 0;
+}
+
+.bl-input {
+  width: 100%;
+  height: 44px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0 14px;
+  font-size: 0.9rem;
+  color: var(--text);
+  outline: none;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.bl-input::placeholder { color: var(--text-muted); }
+.bl-input:focus { border-color: var(--accent); }
+
+/* Group: bat + button, absolutely positioned and centred on pos% */
+.bl-group {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transform: translate(-50%, -50%);
+  transition:
+    left 0.18s cubic-bezier(0.22, 0.8, 0.36, 1),
+    top  0.18s cubic-bezier(0.22, 0.8, 0.36, 1);
+}
+
+/* Bat pivots around handle base (bottom-centre of SVG) */
+.bl-bat-wrap {
+  transform-origin: 50% 100%;
+  transform: rotate(-52deg);   /* ready stance — barrel up-left */
+}
+
+.bl-bat-wrap--swing {
+  animation: bl-swing 0.65s ease-out forwards;
+}
+
+@keyframes bl-swing {
+  0%   { transform: rotate(-52deg); }  /* ready */
+  30%  { transform: rotate(48deg);  }  /* through the zone — CRACK */
+  52%  { transform: rotate(28deg);  }  /* follow-through */
+  75%  { transform: rotate(35deg);  }
+  100% { transform: rotate(-52deg); }  /* back to ready */
+}
+
+.bl-btn {
+  height: 40px;
+  padding: 0 22px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.bl-btn:hover { background: #e03030; }
+
+.bl-tally {
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-family: monospace;
+  letter-spacing: 0.1em;
+  margin: 0;
+  pointer-events: none;
+}
